@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Suraj — Tech Enthusiast, Arduino Developer & Hardware Tinkerer. Exploring the intersection of code and circuits.">
+    <title>Suraj | Tech & Arduino Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background Particles -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>Suraj<span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#arduino" class="nav-link">Arduino</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Available for Projects
+            </div>
+            <h1 class="hero-title">
+                <span class="hero-greeting">Hello, I'm</span>
+                <span class="hero-name">Suraj</span>
+                <span class="hero-tagline">
+                    <span class="typing-wrapper">
+                        <span id="typed-text"></span>
+                        <span class="cursor">|</span>
+                    </span>
+                </span>
+            </h1>
+            <p class="hero-description">
+                Bridging the gap between <strong>software</strong> and <strong>hardware</strong>. 
+                I build things that blink, buzz, and sometimes even work as intended.
+            </p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn btn-primary">
+                    <span>View My Work</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number" data-target="15">0</span>+
+                    <span class="stat-label">Projects Built</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" data-target="8">0</span>+
+                    <span class="stat-label">Arduino Builds</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" data-target="3">0</span>+
+                    <span class="stat-label">Years Learning</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="circuit-board">
+                <div class="chip">
+                    <div class="chip-body">
+                        <span class="chip-label">ATMEGA<br>328P</span>
+                    </div>
+                    <div class="chip-pins left">
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="chip-pins right">
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+                <div class="trace trace-1"></div>
+                <div class="trace trace-2"></div>
+                <div class="trace trace-3"></div>
+                <div class="trace trace-4"></div>
+                <div class="led led-1"></div>
+                <div class="led led-2"></div>
+                <div class="led led-3"></div>
+                <div class="resistor resistor-1"></div>
+                <div class="resistor resistor-2"></div>
+                <div class="capacitor"></div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Who am I?</span>
+                <h2 class="section-title">About <span class="highlight">Me</span></h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-image-wrapper">
+                    <div class="about-image">
+                        <div class="avatar-placeholder">
+                            <svg viewBox="0 0 120 120" fill="none">
+                                <circle cx="60" cy="45" r="25" stroke="currentColor" stroke-width="2"/>
+                                <path d="M20 110c0-22 18-40 40-40s40 18 40 40" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>S</span>
+                        </div>
+                    </div>
+                    <div class="about-image-decoration"></div>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>
+                            I'm <strong>Suraj</strong>, a passionate tech enthusiast who loves tinkering with 
+                            electronics and writing code. My journey started with blinking an LED on an Arduino 
+                            and has evolved into building complex embedded systems and web applications.
+                        </p>
+                        <p>
+                            Whether it's programming microcontrollers, designing circuits, or building software — 
+                            I'm always exploring new ways to create something meaningful with technology. 
+                            I believe the best projects live at the intersection of hardware and software.
+                        </p>
+                    </div>
+                    <div class="about-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">📍</span>
+                            <div>
+                                <span class="detail-label">Location</span>
+                                <span class="detail-value">India</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">💻</span>
+                            <div>
+                                <span class="detail-label">Focus</span>
+                                <span class="detail-value">Tech & Arduino</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">⚡</span>
+                            <div>
+                                <span class="detail-label">Passion</span>
+                                <span class="detail-value">Embedded Systems</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🎯</span>
+                            <div>
+                                <span class="detail-label">Goal</span>
+                                <span class="detail-value">Build Cool Stuff</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section skills" id="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// What I know</span>
+                <h2 class="section-title">Tech <span class="highlight">Stack</span></h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card" data-category="hardware">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="12" y="8" width="24" height="32" rx="2"/>
+                            <line x1="8" y1="14" x2="12" y2="14"/>
+                            <line x1="8" y1="20" x2="12" y2="20"/>
+                            <line x1="8" y1="26" x2="12" y2="26"/>
+                            <line x1="8" y1="32" x2="12" y2="32"/>
+                            <line x1="36" y1="14" x2="40" y2="14"/>
+                            <line x1="36" y1="20" x2="40" y2="20"/>
+                            <line x1="36" y1="26" x2="40" y2="26"/>
+                            <line x1="36" y1="32" x2="40" y2="32"/>
+                        </svg>
+                    </div>
+                    <h3 class="skill-name">Arduino</h3>
+                    <p class="skill-desc">Uno, Nano, Mega — Sensors, Motors, IoT projects</p>
+                    <div class="skill-level">
+                        <div class="skill-bar" data-level="90"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-category="hardware">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="6" y="16" width="36" height="20" rx="3"/>
+                            <circle cx="14" cy="26" r="3"/>
+                            <rect x="20" y="22" width="16" height="8" rx="1"/>
+                            <line x1="14" y1="10" x2="14" y2="16"/>
+                            <line x1="24" y1="10" x2="24" y2="16"/>
+                            <line x1="34" y1="10" x2="34" y2="16"/>
+                        </svg>
+                    </div>
+                    <h3 class="skill-name">Electronics</h3>
+                    <p class="skill-desc">Circuit design, soldering, PCB prototyping</p>
+                    <div class="skill-level">
+                        <div class="skill-bar" data-level="80"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-category="software">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16,12 6,24 16,36"/>
+                            <polyline points="32,12 42,24 32,36"/>
+                            <line x1="28" y1="8" x2="20" y2="40"/>
+                        </svg>
+                    </div>
+                    <h3 class="skill-name">C / C++</h3>
+                    <p class="skill-desc">Embedded programming, firmware development</p>
+                    <div class="skill-level">
+                        <div class="skill-bar" data-level="85"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-category="software">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="4" width="40" height="40" rx="4"/>
+                            <path d="M16 20c0-2.2 1.8-4 4-4s4 1.8 4 4-4 8-4 8"/>
+                            <circle cx="20" cy="34" r="1.5" fill="currentColor"/>
+                            <path d="M28 16v10l6-5"/>
+                        </svg>
+                    </div>
+                    <h3 class="skill-name">Python</h3>
+                    <p class="skill-desc">Automation, data processing, scripting</p>
+                    <div class="skill-level">
+                        <div class="skill-bar" data-level="75"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-category="software">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 8h36v28H6z"/>
+                            <path d="M6 36h36v4H6z"/>
+                            <circle cx="24" cy="38" r="1" fill="currentColor"/>
+                            <path d="M14 16l-4 6 4 6" stroke-width="2"/>
+                            <path d="M34 16l4 6-4 6" stroke-width="2"/>
+                            <line x1="22" y1="14" x2="26" y2="30"/>
+                        </svg>
+                    </div>
+                    <h3 class="skill-name">Web Dev</h3>
+                    <p class="skill-desc">HTML, CSS, JavaScript — Building for the web</p>
+                    <div class="skill-level">
+                        <div class="skill-bar" data-level="70"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-category="hardware">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="24" cy="24" r="18"/>
+                            <path d="M24 6v4M24 38v4M6 24h4M38 24h4"/>
+                            <circle cx="24" cy="24" r="6"/>
+                            <path d="M18 12l2 3M28 33l2 3M12 30l3-2M33 18l3-2"/>
+                        </svg>
+                    </div>
+                    <h3 class="skill-name">IoT</h3>
+                    <p class="skill-desc">ESP8266, ESP32, MQTT, cloud connectivity</p>
+                    <div class="skill-level">
+                        <div class="skill-bar" data-level="78"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// What I've built</span>
+                <h2 class="section-title">Featured <span class="highlight">Projects</span></h2>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card featured">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="20" y="10" width="40" height="60" rx="3"/>
+                                <circle cx="40" cy="30" r="8"/>
+                                <path d="M28 50h24M32 56h16"/>
+                                <circle cx="32" cy="18" r="2" fill="currentColor"/>
+                                <circle cx="48" cy="18" r="2" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Arduino</span>
+                            <span class="tag">IoT</span>
+                            <span class="tag">Sensors</span>
+                        </div>
+                        <h3 class="project-title">Smart Home Automation</h3>
+                        <p class="project-desc">
+                            A complete home automation system using Arduino and ESP8266. 
+                            Control lights, fans, and appliances remotely via a custom web dashboard. 
+                            Features temperature monitoring and automated scheduling.
+                        </p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                                </svg>
+                                Code
+                            </a>
+                            <a href="#" class="project-link">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                    <polyline points="15 3 21 3 21 9"/>
+                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                </svg>
+                                Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M40 15l20 12v22L40 61 20 49V27z"/>
+                                <path d="M40 15v46M20 27l20 12 20-12"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Arduino</span>
+                            <span class="tag">Robotics</span>
+                        </div>
+                        <h3 class="project-title">Line Following Robot</h3>
+                        <p class="project-desc">
+                            An autonomous robot using IR sensors and Arduino Uno that follows 
+                            a black line track with PID control for smooth navigation.
+                        </p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                                </svg>
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="15" y="20" width="50" height="35" rx="3"/>
+                                <line x1="15" y1="30" x2="65" y2="30"/>
+                                <circle cx="22" cy="25" r="2" fill="currentColor"/>
+                                <circle cx="30" cy="25" r="2" fill="currentColor"/>
+                                <circle cx="38" cy="25" r="2" fill="currentColor"/>
+                                <path d="M25 40l5 5-5 5M38 38h12"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Web</span>
+                        </div>
+                        <h3 class="project-title">Weather Station Dashboard</h3>
+                        <p class="project-desc">
+                            Real-time weather monitoring with DHT22 sensor data 
+                            visualized on a beautiful web dashboard using Chart.js.
+                        </p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                                </svg>
+                                Code
+                            </a>
+                            <a href="#" class="project-link">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                    <polyline points="15 3 21 3 21 9"/>
+                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                </svg>
+                                Live
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Arduino Showcase Section -->
+    <section class="section arduino-showcase" id="arduino">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// My favorite platform</span>
+                <h2 class="section-title">Arduino <span class="highlight">Workshop</span></h2>
+            </div>
+            <div class="arduino-content">
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-filename">blink.ino</span>
+                    </div>
+                    <pre class="code-body"><code><span class="code-comment">// Suraj's first Arduino sketch</span>
+<span class="code-comment">// The classic LED blink 💡</span>
+
+<span class="code-keyword">void</span> <span class="code-function">setup</span>() {
+  <span class="code-function">pinMode</span>(<span class="code-number">LED_BUILTIN</span>, <span class="code-number">OUTPUT</span>);
+  <span class="code-function">Serial</span>.<span class="code-function">begin</span>(<span class="code-number">9600</span>);
+  <span class="code-function">Serial</span>.<span class="code-function">println</span>(<span class="code-string">"Hello World! 🚀"</span>);
+}
+
+<span class="code-keyword">void</span> <span class="code-function">loop</span>() {
+  <span class="code-function">digitalWrite</span>(<span class="code-number">LED_BUILTIN</span>, <span class="code-number">HIGH</span>);
+  <span class="code-function">delay</span>(<span class="code-number">1000</span>);
+  <span class="code-function">digitalWrite</span>(<span class="code-number">LED_BUILTIN</span>, <span class="code-number">LOW</span>);
+  <span class="code-function">delay</span>(<span class="code-number">1000</span>);
+}</code></pre>
+                </div>
+                <div class="arduino-info">
+                    <div class="arduino-feature">
+                        <div class="feature-icon">🔌</div>
+                        <div>
+                            <h4>Hardware Prototyping</h4>
+                            <p>From breadboard experiments to custom PCB designs — bringing ideas to life with real components.</p>
+                        </div>
+                    </div>
+                    <div class="arduino-feature">
+                        <div class="feature-icon">📡</div>
+                        <div>
+                            <h4>Wireless Connectivity</h4>
+                            <p>ESP8266 & ESP32 for WiFi-enabled projects. Connecting the physical world to the internet.</p>
+                        </div>
+                    </div>
+                    <div class="arduino-feature">
+                        <div class="feature-icon">🤖</div>
+                        <div>
+                            <h4>Robotics & Automation</h4>
+                            <p>Building robots that navigate, sense, and interact with their environment autonomously.</p>
+                        </div>
+                    </div>
+                    <div class="arduino-feature">
+                        <div class="feature-icon">📊</div>
+                        <div>
+                            <h4>Sensor Integration</h4>
+                            <p>Temperature, humidity, ultrasonic, IR — reading the world through electronic sensors.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Let's connect</span>
+                <h2 class="section-title">Get in <span class="highlight">Touch</span></h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p class="contact-text">
+                        Got a project idea or want to collaborate? I'm always excited to discuss 
+                        new tech, Arduino projects, or anything that involves building cool stuff!
+                    </p>
+                    <div class="contact-methods">
+                        <a href="mailto:suraj@example.com" class="contact-method" id="contact-email">
+                            <div class="contact-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                    <path d="M22 4L12 13 2 4"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="contact-label">Email</span>
+                                <span class="contact-value">suraj@example.com</span>
+                            </div>
+                        </a>
+                        <a href="https://github.com/suraj" class="contact-method" id="contact-github" target="_blank">
+                            <div class="contact-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="contact-label">GitHub</span>
+                                <span class="contact-value">@suraj</span>
+                            </div>
+                        </a>
+                        <a href="#" class="contact-method" id="contact-linkedin">
+                            <div class="contact-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                    <rect x="2" y="9" width="4" height="12"/>
+                                    <circle cx="4" cy="4" r="2"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="contact-label">LinkedIn</span>
+                                <span class="contact-value">Suraj</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="form-name" placeholder="Your Name" required>
+                        <label for="form-name">Your Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="form-email" placeholder="Your Email" required>
+                        <label for="form-email">Your Email</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="form-message" placeholder="Your Message" rows="5" required></textarea>
+                        <label for="form-message">Your Message</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full" id="form-submit">
+                        <span>Send Message</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>Suraj<span class="logo-bracket">/&gt;</span>
+                </div>
+                <p class="footer-text">
+                    Designed & Built with ❤️ and a lot of ☕
+                </p>
+                <p class="footer-copyright">
+                    © 2026 Suraj. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
