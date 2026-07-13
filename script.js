@@ -1,5 +1,5 @@
 // ==========================================
-// Suraj Portfolio - Interactive Engine JS
+// Suraj Portfolio - Interactive Engine JS (Light Theme Optimized)
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -85,7 +85,7 @@ function initMagneticCursor() {
 }
 
 // ==========================================
-// Particle Circuit Grid Background
+// Particle Circuit Grid Background (Light Mode)
 // ==========================================
 function initParticleGrid() {
     const canvas = document.getElementById('particles-canvas');
@@ -94,7 +94,7 @@ function initParticleGrid() {
     let height = canvas.height = window.innerHeight;
     
     let particles = [];
-    const maxParticles = 60;
+    const maxParticles = 50;
     
     window.addEventListener('resize', () => {
         width = canvas.width = window.innerWidth;
@@ -109,13 +109,14 @@ function initParticleGrid() {
         reset() {
             this.x = Math.random() * width;
             this.y = Math.random() * height;
-            this.speed = Math.random() * 0.8 + 0.3;
+            this.speed = Math.random() * 0.5 + 0.2;
             // 0: Right, 1: Down, 2: Left, 3: Up (orthogonal paths like PCB traces)
             this.direction = Math.floor(Math.random() * 4);
-            this.color = Math.random() > 0.5 ? '0, 212, 255' : '124, 58, 237';
+            // Light theme trace colors (soft teal and purple/indigo)
+            this.color = Math.random() > 0.5 ? '0, 130, 138' : '99, 102, 241';
             this.length = 0;
-            this.maxLength = Math.random() * 200 + 100;
-            this.opacity = Math.random() * 0.2 + 0.05;
+            this.maxLength = Math.random() * 150 + 80;
+            this.opacity = Math.random() * 0.12 + 0.04;
             this.width = Math.random() * 1.5 + 0.5;
         }
 
@@ -125,14 +126,14 @@ function initParticleGrid() {
             this.y += Math.sin(rad) * this.speed;
             this.length += this.speed;
 
-            // Randomly turn 90 degrees at intersection bounds
+            // Turn 90 degrees at intersection bounds
             if (this.length > this.maxLength) {
                 this.length = 0;
-                this.maxLength = Math.random() * 200 + 100;
+                this.maxLength = Math.random() * 150 + 80;
                 this.direction = (this.direction + (Math.random() > 0.5 ? 1 : -1) + 4) % 4;
             }
 
-            // Check viewport limits
+            // Viewport checks
             if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
                 this.reset();
             }
@@ -152,17 +153,16 @@ function initParticleGrid() {
     }
 
     function animate() {
-        ctx.fillStyle = 'rgba(5, 5, 8, 0.08)'; // Fine tail trails
-        ctx.fillRect(0, 0, width, height);
+        ctx.clearRect(0, 0, width, height); // Pure transparent clear for light mode overlaying HTML backgrounds
 
-        // Draw PCB dots and traces
+        // Draw PCB traces
         particles.forEach(p => {
             p.update();
             p.draw();
         });
 
-        // Draw faint vertical gridlines for schematic board vibe
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.005)';
+        // Faint grid lines to resemble engineering blueprint sheet
+        ctx.strokeStyle = 'rgba(15, 23, 42, 0.015)';
         ctx.lineWidth = 0.5;
         const gridGap = 80;
         for (let x = 0; x < width; x += gridGap) {
@@ -381,7 +381,7 @@ void loop() {
 }`
 };
 
-// Syntax highlighters for the simulator
+// Syntax highlighters for the simulator (Light theme optimized values)
 function highlightCode(code) {
     return code
         .replace(/(\/\/.*)/g, '<span class="syntax-comment">$1</span>')
@@ -556,8 +556,8 @@ function initContactForm() {
 
         setTimeout(() => {
             submitBtn.innerHTML = '<span>Handshake Accepted! ✓</span>';
-            submitBtn.style.background = 'linear-gradient(135deg, #06ffa5, #00d4ff)';
-            submitBtn.style.color = '#000';
+            submitBtn.style.background = 'var(--accent-primary)';
+            submitBtn.style.color = '#ffffff';
 
             setTimeout(() => {
                 submitBtn.innerHTML = origContent;
