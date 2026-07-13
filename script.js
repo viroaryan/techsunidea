@@ -1,161 +1,186 @@
 // ==========================================
-// Suraj Portfolio - JavaScript
+// Suraj Portfolio - Interactive Engine JS
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    initParticles();
-    initNavbar();
+    initScrollProgress();
+    initMagneticCursor();
+    initParticleGrid();
     initTypingEffect();
     initScrollReveal();
-    initSkillBars();
-    initCounters();
+    initTimelineProgress();
+    initSkillsFilter();
+    initIDEWorkshop();
+    initCaseStudyModals();
     initContactForm();
 });
 
 // ==========================================
-// Particle Background
+// Scroll Progress Indicator
 // ==========================================
-function initParticles() {
+function initScrollProgress() {
+    const scrollBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        scrollBar.style.width = scrolled + '%';
+    });
+}
+
+// ==========================================
+// Custom Magnetic Cursor
+// ==========================================
+function initMagneticCursor() {
+    const cursor = document.getElementById('custom-cursor');
+    const cursorDot = document.getElementById('custom-cursor-dot');
+    const targets = document.querySelectorAll('.magnetic-target, a, button, input, textarea');
+
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Instant position for inner dot
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+    });
+
+    // Smooth lag animation for outer circle
+    function animateCursor() {
+        const dx = mouseX - cursorX;
+        const dy = mouseY - cursorY;
+        
+        cursorX += dx * 0.15;
+        cursorY += dy * 0.15;
+
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Hover Scaling effect
+    targets.forEach(target => {
+        target.addEventListener('mouseenter', () => {
+            cursor.classList.add('hovering');
+        });
+        target.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hovering');
+        });
+    });
+
+    // Hide cursor when leaving window
+    document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+        cursorDot.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+        cursorDot.style.opacity = '1';
+    });
+}
+
+// ==========================================
+// Particle Circuit Grid Background
+// ==========================================
+function initParticleGrid() {
     const canvas = document.getElementById('particles-canvas');
     const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    
     let particles = [];
-    let animationId;
+    const maxParticles = 60;
+    
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    });
 
-    function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-
-    resize();
-    window.addEventListener('resize', resize);
-
-    class Particle {
+    class CircuitTrace {
         constructor() {
             this.reset();
         }
 
         reset() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2 + 0.5;
-            this.speedX = (Math.random() - 0.5) * 0.4;
-            this.speedY = (Math.random() - 0.5) * 0.4;
-            this.opacity = Math.random() * 0.4 + 0.1;
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.speed = Math.random() * 0.8 + 0.3;
+            // 0: Right, 1: Down, 2: Left, 3: Up (orthogonal paths like PCB traces)
+            this.direction = Math.floor(Math.random() * 4);
             this.color = Math.random() > 0.5 ? '0, 212, 255' : '124, 58, 237';
+            this.length = 0;
+            this.maxLength = Math.random() * 200 + 100;
+            this.opacity = Math.random() * 0.2 + 0.05;
+            this.width = Math.random() * 1.5 + 0.5;
         }
 
         update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
+            const rad = (this.direction * Math.PI) / 2;
+            this.x += Math.cos(rad) * this.speed;
+            this.y += Math.sin(rad) * this.speed;
+            this.length += this.speed;
 
-            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            // Randomly turn 90 degrees at intersection bounds
+            if (this.length > this.maxLength) {
+                this.length = 0;
+                this.maxLength = Math.random() * 200 + 100;
+                this.direction = (this.direction + (Math.random() > 0.5 ? 1 : -1) + 4) % 4;
+            }
+
+            // Check viewport limits
+            if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+                this.reset();
+            }
         }
 
         draw() {
             ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
             ctx.fill();
         }
     }
 
-    // Create particles
-    const particleCount = Math.min(80, Math.floor(window.innerWidth * window.innerHeight / 15000));
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-
-    function connectParticles() {
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-
-                if (distance < 150) {
-                    const opacity = (1 - distance / 150) * 0.15;
-                    ctx.beginPath();
-                    ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
-                }
-            }
-        }
+    // Initialize nodes
+    for (let i = 0; i < maxParticles; i++) {
+        particles.push(new CircuitTrace());
     }
 
     function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(5, 5, 8, 0.08)'; // Fine tail trails
+        ctx.fillRect(0, 0, width, height);
+
+        // Draw PCB dots and traces
         particles.forEach(p => {
             p.update();
             p.draw();
         });
-        connectParticles();
-        animationId = requestAnimationFrame(animate);
+
+        // Draw faint vertical gridlines for schematic board vibe
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.005)';
+        ctx.lineWidth = 0.5;
+        const gridGap = 80;
+        for (let x = 0; x < width; x += gridGap) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, height);
+            ctx.stroke();
+        }
+        for (let y = 0; y < height; y += gridGap) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(width, y);
+            ctx.stroke();
+        }
+
+        requestAnimationFrame(animate);
     }
-
     animate();
-
-    // Cleanup on page hide
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            cancelAnimationFrame(animationId);
-        } else {
-            animate();
-        }
-    });
-}
-
-// ==========================================
-// Navbar
-// ==========================================
-function initNavbar() {
-    const navbar = document.getElementById('navbar');
-    const navToggle = document.getElementById('nav-toggle');
-    const navLinks = document.getElementById('nav-links');
-    const links = navLinks.querySelectorAll('.nav-link');
-
-    // Scroll effect
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-
-        // Active link tracking
-        const sections = document.querySelectorAll('section[id]');
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 120;
-            if (window.scrollY >= sectionTop) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        links.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
-    });
-
-    // Mobile toggle
-    navToggle.addEventListener('click', () => {
-        navToggle.classList.toggle('active');
-        navLinks.classList.toggle('active');
-    });
-
-    // Close on link click
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-            navToggle.classList.remove('active');
-            navLinks.classList.remove('active');
-        });
-    });
 }
 
 // ==========================================
@@ -164,11 +189,11 @@ function initNavbar() {
 function initTypingEffect() {
     const typedText = document.getElementById('typed-text');
     const phrases = [
-        'Tech Enthusiast',
-        'Arduino Developer',
-        'Hardware Tinkerer',
-        'Code & Circuits',
-        'IoT Builder'
+        'Embedded Architecture.',
+        'Custom PCB Layouts.',
+        'Firmware in C++.',
+        'IoT Telemetry Systems.',
+        'Smart Controllers.'
     ];
 
     let phraseIndex = 0;
@@ -182,34 +207,34 @@ function initTypingEffect() {
         if (isDeleting) {
             typedText.textContent = currentPhrase.substring(0, charIndex - 1);
             charIndex--;
-            typingDelay = 50;
+            typingDelay = 40;
         } else {
             typedText.textContent = currentPhrase.substring(0, charIndex + 1);
             charIndex++;
-            typingDelay = 100;
+            typingDelay = 90;
         }
 
         if (!isDeleting && charIndex === currentPhrase.length) {
-            typingDelay = 2000;
+            typingDelay = 2200; // Pause at end of phrase
             isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
             phraseIndex = (phraseIndex + 1) % phrases.length;
-            typingDelay = 400;
+            typingDelay = 300;
         }
 
         setTimeout(type, typingDelay);
     }
 
-    setTimeout(type, 1000);
+    setTimeout(type, 800);
 }
 
 // ==========================================
-// Scroll Reveal
+// Scroll Reveal Observer
 // ==========================================
 function initScrollReveal() {
     const revealElements = document.querySelectorAll(
-        '.section-header, .about-grid, .skill-card, .project-card, .code-window, .arduino-feature, .contact-method, .contact-form, .about-image-wrapper, .about-content'
+        '.section-header, .about-grid, .timeline-item, .skill-card, .project-card, .ide-window, .workshop-info, .contact-layout'
     );
 
     revealElements.forEach(el => el.classList.add('reveal'));
@@ -218,99 +243,330 @@ function initScrollReveal() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
+                // Trigger Skill bar fill on container active status
+                if (entry.target.classList.contains('skill-card')) {
+                    const bar = entry.target.querySelector('.skill-bar');
+                    if (bar) {
+                        const level = bar.getAttribute('data-level');
+                        bar.style.width = level + '%';
+                    }
+                }
             }
         });
     }, {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -40px 0px'
     });
 
     revealElements.forEach(el => observer.observe(el));
 }
 
 // ==========================================
-// Skill Bars Animation
+// Timeline Scroll Progress
 // ==========================================
-function initSkillBars() {
-    const skillBars = document.querySelectorAll('.skill-bar');
+function initTimelineProgress() {
+    const timeline = document.querySelector('.timeline');
+    const progressBar = document.querySelector('.timeline-progress');
+    if (!timeline || !progressBar) return;
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const level = entry.target.getAttribute('data-level');
-                entry.target.style.width = level + '%';
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    skillBars.forEach(bar => observer.observe(bar));
+    window.addEventListener('scroll', () => {
+        const rect = timeline.getBoundingClientRect();
+        const winHeight = window.innerHeight;
+        
+        // Progress starts when timeline enters screen center, ends when leaves center
+        const start = rect.top - (winHeight / 2);
+        const totalHeight = rect.height;
+        
+        let progress = -start / totalHeight;
+        progress = Math.max(0, Math.min(1, progress));
+        progressBar.style.height = (progress * 100) + '%';
+    });
 }
 
 // ==========================================
-// Counter Animation
+// Technical Skill Grid Category Filters
 // ==========================================
-function initCounters() {
-    const counters = document.querySelectorAll('.stat-number');
+function initSkillsFilter() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const skillCards = document.querySelectorAll('.skill-card');
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const target = parseInt(entry.target.getAttribute('data-target'));
-                animateCounter(entry.target, target);
-                observer.unobserve(entry.target);
-            }
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update Active class status
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const category = btn.getAttribute('data-filter');
+
+            skillCards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                
+                if (category === 'all' || cardCat === category) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0) scale(1)';
+                    }, 50);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(15px) scale(0.95)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
         });
-    }, { threshold: 0.5 });
-
-    counters.forEach(counter => observer.observe(counter));
+    });
 }
 
-function animateCounter(element, target) {
-    let current = 0;
-    const increment = target / 40;
-    const duration = 1500;
-    const stepTime = duration / 40;
+// ==========================================
+// Interactive Arduino Compiler Simulator
+// ==========================================
+const codeTemplates = {
+    led: `// led_fade.ino
+// Fades pin 9 LED using hardware timer registers
 
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            element.textContent = target;
-            clearInterval(timer);
-        } else {
-            element.textContent = Math.ceil(current);
+const int ledPin = 9;
+int brightness = 0;
+int fadeAmount = 5;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(115200);
+  Serial.println("MCU initialized. Fade cycle ACTIVE.");
+}
+
+void loop() {
+  analogWrite(ledPin, brightness);
+  brightness += fadeAmount;
+  
+  if (brightness <= 0 || brightness >= 255) {
+    fadeAmount = -fadeAmount;
+    Serial.println("PWM Boundary reached. Reversing direction.");
+  }
+  
+  delay(30);
+}`,
+    sensor: `// dht22_mqtt.ino
+// Connects to local AP and publishes sensor data
+
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+const char* ssid = "SensorNet_Local";
+const char* mqttTopic = "esp32/office/telemetry";
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+void setup() {
+  Serial.begin(115200);
+  initWiFi();
+  client.setServer("192.168.1.50", 1883);
+}
+
+void loop() {
+  if (!client.connected()) {
+    reconnectBroker();
+  }
+  client.loop();
+  
+  float humidity = readDHT22Humidity();
+  float temperature = readDHT22Temperature();
+  
+  String payload = "{\\"temp\\":" + String(temperature) + ",\\"hum\\":" + String(humidity) + "}";
+  client.publish(mqttTopic, payload.c_str());
+  
+  delay(10000); // 10s Sleep interval
+}`
+};
+
+// Syntax highlighters for the simulator
+function highlightCode(code) {
+    return code
+        .replace(/(\/\/.*)/g, '<span class="syntax-comment">$1</span>')
+        .replace(/\b(void|int|const|char|float)\b/g, '<span class="syntax-type">$1</span>')
+        .replace(/\b(setup|loop|pinMode|analogWrite|digitalWrite|delay|begin|println|print|setServer|connected|publish|readDHT22Humidity|readDHT22Temperature|initWiFi|reconnectBroker|readDHT22)\b/g, '<span class="syntax-function">$1</span>')
+        .replace(/\b(OUTPUT|INPUT|HIGH|LOW)\b/g, '<span class="syntax-literal">$1</span>')
+        .replace(/("[^"]*")/g, '<span class="syntax-string">$1</span>')
+        .replace(/\b(const|if|return)\b/g, '<span class="syntax-keyword">$1</span>');
+}
+
+function initIDEWorkshop() {
+    const tabBtns = document.querySelectorAll('.ide-tab');
+    const displayElement = document.getElementById('code-display');
+    const lineNumbers = document.getElementById('editor-line-numbers');
+    const consoleOutput = document.getElementById('console-output');
+    const verifyBtn = document.getElementById('ide-verify');
+    const uploadBtn = document.getElementById('ide-upload');
+    const clearBtn = document.getElementById('clear-term');
+
+    let activeTab = 'led';
+    let isCompiled = false;
+
+    function renderCode(key) {
+        const rawCode = codeTemplates[key];
+        displayElement.innerHTML = highlightCode(rawCode);
+        
+        // Generate Line Numbers
+        const lines = rawCode.split('\n').length;
+        let lineHTML = '';
+        for (let i = 1; i <= lines; i++) {
+            lineHTML += `<span>${i}</span><br>`;
         }
-    }, stepTime);
+        lineNumbers.innerHTML = lineHTML;
+    }
+
+    renderCode(activeTab);
+
+    // Tab Switcher
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeTab = btn.getAttribute('data-code');
+            isCompiled = false;
+            renderCode(activeTab);
+            writeConsole('<p class="terminal-muted">Tab switched. Build registers reset.</p>');
+        });
+    });
+
+    function writeConsole(html) {
+        consoleOutput.innerHTML += html;
+        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+
+    // Verify / Compile Logic
+    verifyBtn.addEventListener('click', () => {
+        consoleOutput.innerHTML = '';
+        writeConsole('<p class="terminal-info">avr-g++ -c -g -Os -w -std=c++11 -fno-exceptions -ffunction-sections -fdata-sections -MMD -mmcu=atmega328p ...</p>');
+        writeConsole('<p class="terminal-info">Compiling file structures...</p>');
+        
+        setTimeout(() => {
+            writeConsole('<p class="terminal-info">Linking external configurations and peripheral architectures...</p>');
+        }, 600);
+
+        setTimeout(() => {
+            if (activeTab === 'led') {
+                writeConsole('<p class="terminal-success">✓ Compilation successful.</p>');
+                writeConsole('<p class="terminal-muted">Sketch uses 924 bytes (3%) of program storage space. Maximum is 32256 bytes.</p>');
+                writeConsole('<p class="terminal-muted">Global variables use 9 bytes (0%) of dynamic memory, leaving 2039 bytes for local variables.</p>');
+            } else {
+                writeConsole('<p class="terminal-success">✓ Compilation successful.</p>');
+                writeConsole('<p class="terminal-muted">Sketch uses 24810 bytes (76%) of program storage space. Maximum is 32256 bytes.</p>');
+                writeConsole('<p class="terminal-muted">Global variables use 740 bytes (36%) of dynamic memory, leaving 1308 bytes.</p>');
+            }
+            isCompiled = true;
+        }, 1400);
+    });
+
+    // Upload Firmware Logic
+    uploadBtn.addEventListener('click', () => {
+        if (!isCompiled) {
+            consoleOutput.innerHTML = '';
+            writeConsole('<p class="terminal-warn">! Warning: Sketch not verified. Auto-compiling sketch before upload phase.</p>');
+            verifyBtn.click();
+            setTimeout(executeUpload, 2000);
+        } else {
+            executeUpload();
+        }
+    });
+
+    function executeUpload() {
+        writeConsole('<p class="terminal-info">Initializing virtual programmer on COM3 @ 115200 baud...</p>');
+        
+        setTimeout(() => {
+            writeConsole('<p class="terminal-info">Found MCU signature: Atmega328P [AVRISP]</p>');
+            writeConsole('<p class="terminal-info">Writing flash memory [========================] 100%</p>');
+        }, 800);
+
+        setTimeout(() => {
+            writeConsole('<p class="terminal-success">✓ Upload success! Bootloader signature cleared. Restarts unit...</p>');
+            writeConsole(`<p class="terminal-info">> SERIAL OUTPUT (COM3): [${activeTab === 'led' ? 'MCU initialized. Fade cycle ACTIVE.' : 'WiFi Connected. Initializing broker handshake.'}]</p>`);
+        }, 1600);
+    }
+
+    clearBtn.addEventListener('click', () => {
+        consoleOutput.innerHTML = '<p class="terminal-muted">Console cleared. Awaiting hardware signals...</p>';
+    });
 }
 
 // ==========================================
-// Contact Form
+// Project Case Study Modal Manager
+// ==========================================
+function initCaseStudyModals() {
+    const openBtns = document.querySelectorAll('.open-modal-btn');
+    const closeBtns = document.querySelectorAll('.modal-close-btn');
+    const overlays = document.querySelectorAll('.modal-overlay');
+
+    openBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+            const targetModal = document.getElementById(targetId);
+            if (targetModal) {
+                targetModal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Block background scroll
+            }
+        });
+    });
+
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            overlays.forEach(overlay => overlay.classList.remove('active'));
+            document.body.style.overflow = '';
+        });
+    });
+
+    // Close on backdrop overlay click
+    overlays.forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+
+    // Close on Escape keyboard code
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            overlays.forEach(overlay => overlay.classList.remove('active'));
+            document.body.style.overflow = '';
+        }
+    });
+}
+
+// ==========================================
+// Contact Form & Message Hub
 // ==========================================
 function initContactForm() {
     const form = document.getElementById('contact-form');
+    if (!form) return;
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const submitBtn = document.getElementById('form-submit');
-        const originalContent = submitBtn.innerHTML;
+        const submitBtn = document.getElementById('form-submit-btn');
+        const origContent = submitBtn.innerHTML;
 
-        // Simulate form submission
-        submitBtn.innerHTML = '<span>Sending...</span>';
+        // Visual loading state
+        submitBtn.innerHTML = '<span>Uploading Firmware Packet...</span>';
         submitBtn.disabled = true;
         submitBtn.style.opacity = '0.7';
 
         setTimeout(() => {
-            submitBtn.innerHTML = '<span>Message Sent! ✓</span>';
+            submitBtn.innerHTML = '<span>Handshake Accepted! ✓</span>';
             submitBtn.style.background = 'linear-gradient(135deg, #06ffa5, #00d4ff)';
+            submitBtn.style.color = '#000';
 
             setTimeout(() => {
-                submitBtn.innerHTML = originalContent;
+                submitBtn.innerHTML = origContent;
                 submitBtn.disabled = false;
                 submitBtn.style.opacity = '1';
                 submitBtn.style.background = '';
+                submitBtn.style.color = '';
                 form.reset();
-            }, 2500);
-        }, 1500);
+            }, 3000);
+        }, 1800);
     });
 }
